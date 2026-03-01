@@ -9,18 +9,32 @@
       scroll-behavior: smooth;
     }
 
+    /* ===== Cinematic animated gradient background ===== */
     body {
       margin: 0;
       font-family: Georgia, serif;
-      background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
+      background: linear-gradient(-45deg, #0f0c29, #302b63, #24243e, #000000);
+      background-size: 400% 400%;
+      animation: gradientShift 20s ease infinite;
       color: #e6e6fa;
       overflow-x: hidden;
-      animation: fadeIn 2s ease-in;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Fog overlay */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.02), transparent 80%);
+      z-index: 1;
     }
 
     nav {
@@ -44,58 +58,63 @@
     .container {
       text-align: center;
       padding: 120px 20px 80px 20px;
+      position: relative;
+      z-index: 2; /* above fog */
     }
 
+    /* Glowing title */
     h1 {
-  font-size: 3.5rem;
-  letter-spacing: 6px;
-  color: #ffffff;
-  text-shadow:
-    0 0 5px #ffffff,
-    0 0 10px #c084fc,
-    0 0 20px #9333ea,
-    0 0 40px #7e22ce;
-  animation: glowPulse 3s ease-in-out infinite alternate;
-}
-@keyframes glowPulse {
-  from {
-    text-shadow:
-      0 0 5px #ffffff,
-      0 0 10px #c084fc,
-      0 0 20px #9333ea,
-      0 0 30px #7e22ce;
-  }
-  to {
-    text-shadow:
-      0 0 10px #ffffff,
-      0 0 20px #e879f9,
-      0 0 30px #a855f7,
-      0 0 60px #7e22ce;
-  }
-}
+      font-size: 3.5rem;
+      letter-spacing: 6px;
+      color: #ffffff;
+      text-shadow:
+        0 0 5px #ffffff,
+        0 0 10px #c084fc,
+        0 0 20px #9333ea,
+        0 0 40px #7e22ce;
+      animation: glowPulse 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes glowPulse {
+      from {
+        text-shadow:
+          0 0 5px #ffffff,
+          0 0 10px #c084fc,
+          0 0 20px #9333ea,
+          0 0 30px #7e22ce;
+      }
+      to {
+        text-shadow:
+          0 0 10px #ffffff,
+          0 0 20px #e879f9,
+          0 0 30px #a855f7,
+          0 0 60px #7e22ce;
+      }
+    }
+
     .card {
       background: rgba(255,255,255,0.08);
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(12px);
       padding: 25px;
       border-radius: 15px;
       margin: 40px auto;
       max-width: 600px;
-      transition: transform 0.3s ease;
+      transition: transform 0.3s ease, background 0.3s ease;
+      position: relative;
+      z-index: 2;
     }
 
     .card:hover {
       transform: scale(1.05);
     }
 
-    section {
-      padding-top: 80px;
-    }
+    section { padding-top: 80px; }
 
     canvas {
       position: fixed;
       top: 0;
       left: 0;
-      z-index: -1;
+      z-index: 0; /* behind everything */
     }
 
     /* Light Mode */
@@ -103,7 +122,6 @@
       background: linear-gradient(to bottom, #fceabb, #f8b500);
       color: #222;
     }
-
     .light-mode .card {
       background: rgba(0,0,0,0.1);
     }
@@ -119,10 +137,22 @@
       border-radius: 10px;
       cursor: pointer;
       backdrop-filter: blur(5px);
+      z-index: 10;
     }
-
     .music-btn { right: 20px; }
     .mode-btn { left: 20px; }
+
+    /* Cursor cloud */
+    #cursor-cloud {
+      position: fixed;
+      top: 0; left: 0;
+      width: 80px;
+      height: 50px;
+      pointer-events: none;
+      background: url('https://static.vecteezy.com/system/resources/thumbnails/026/774/603/small/cloud-with-ai-generated-free-png.png') no-repeat center/contain;
+      z-index: 9;
+      transition: transform 0.1s ease-out;
+    }
 
   </style>
 </head>
@@ -130,6 +160,7 @@
 <body>
 
 <canvas id="rain"></canvas>
+<div id="cursor-cloud"></div>
 
 <nav>
   <a href="#home">Home</a>
@@ -145,7 +176,6 @@
 <button class="mode-btn" onclick="toggleMode()">🌙</button>
 
 <div class="container">
-
   <section id="home">
     <h1>Midnight Rain</h1>
     <p>I was sunshine. I chose midnight rain.</p>
@@ -183,7 +213,6 @@
       <p>I stopped caring who watches.</p>
     </div>
   </section>
-
 </div>
 
 <script>
@@ -192,25 +221,23 @@
   }
 
   function toggleMusic() {
-  const music = document.getElementById("bg-music");
-
-  if (music.paused) {
-    music.play().catch(error => {
-      alert("Click the page once first, then try again.");
-    });
-  } else {
-    music.pause();
+    const music = document.getElementById("bg-music");
+    if (music.paused) {
+      music.play().catch(error => {
+        alert("Click the page once first, then try again.");
+      });
+    } else {
+      music.pause();
+    }
   }
-}
 
+  // Rain
   const canvas = document.getElementById("rain");
   const ctx = canvas.getContext("2d");
-
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
 
   let rainDrops = [];
-
   for (let i = 0; i < 300; i++) {
     rainDrops.push({
       x: Math.random() * canvas.width,
@@ -241,8 +268,14 @@
 
     requestAnimationFrame(drawRain);
   }
-
   drawRain();
+
+  // Cursor cloud
+  const cloud = document.getElementById('cursor-cloud');
+  document.addEventListener('mousemove', e => {
+    cloud.style.transform = `translate(${e.clientX - 40}px, ${e.clientY - 25}px)`;
+  });
+
 </script>
 
 </body>
