@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Midnight Rain</title>
+  <meta charset="UTF-8">
+
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Georgia, serif;
+      background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
+      color: #e6e6fa;
+      overflow-x: hidden;
+      animation: fadeIn 2s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 15px;
+      background: rgba(0,0,0,0.3);
+      backdrop-filter: blur(8px);
+      text-align: center;
+      z-index: 10;
+    }
+
+    nav a {
+      color: white;
+      margin: 0 20px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .container {
+      text-align: center;
+      padding: 120px 20px 80px 20px;
+    }
+
+    h1 {
+  font-size: 3.5rem;
+  letter-spacing: 6px;
+  color: #ffffff;
+  text-shadow:
+    0 0 5px #ffffff,
+    0 0 10px #c084fc,
+    0 0 20px #9333ea,
+    0 0 40px #7e22ce;
+  animation: glowPulse 3s ease-in-out infinite alternate;
+}
+@keyframes glowPulse {
+  from {
+    text-shadow:
+      0 0 5px #ffffff,
+      0 0 10px #c084fc,
+      0 0 20px #9333ea,
+      0 0 30px #7e22ce;
+  }
+  to {
+    text-shadow:
+      0 0 10px #ffffff,
+      0 0 20px #e879f9,
+      0 0 30px #a855f7,
+      0 0 60px #7e22ce;
+  }
+}
+    .card {
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(10px);
+      padding: 25px;
+      border-radius: 15px;
+      margin: 40px auto;
+      max-width: 600px;
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+    }
+
+    section {
+      padding-top: 80px;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+
+    /* Light Mode */
+    .light-mode {
+      background: linear-gradient(to bottom, #fceabb, #f8b500);
+      color: #222;
+    }
+
+    .light-mode .card {
+      background: rgba(0,0,0,0.1);
+    }
+
+    /* Floating Buttons */
+    .music-btn, .mode-btn {
+      position: fixed;
+      bottom: 20px;
+      padding: 10px 15px;
+      background: rgba(255,255,255,0.1);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      backdrop-filter: blur(5px);
+    }
+
+    .music-btn { right: 20px; }
+    .mode-btn { left: 20px; }
+
+  </style>
+</head>
+
+<body>
+
+<canvas id="rain"></canvas>
+
+<nav>
+  <a href="#home">Home</a>
+  <a href="#eras">Eras</a>
+  <a href="#journal">Journal</a>
+</nav>
+
+<audio id="bg-music" loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<button class="music-btn" onclick="toggleMusic()">🎵</button>
+<button class="mode-btn" onclick="toggleMode()">🌙</button>
+
+<div class="container">
+
+  <section id="home">
+    <h1>Midnight Rain</h1>
+    <p>I was sunshine. I chose midnight rain.</p>
+  </section>
+
+  <section id="eras">
+    <h2>My Eras</h2>
+
+    <div class="card">
+      <h3>The Silent Era</h3>
+      <p>When I disappeared to rebuild.</p>
+    </div>
+
+    <div class="card">
+      <h3>The Grind Era</h3>
+      <p>Discipline. JEE. No excuses.</p>
+    </div>
+
+    <div class="card">
+      <h3>The Becoming Era</h3>
+      <p>I stopped shrinking. I started choosing.</p>
+    </div>
+  </section>
+
+  <section id="journal">
+    <h2>Journal</h2>
+
+    <div class="card">
+      <h3>Day 01</h3>
+      <p>I started building instead of shrinking.</p>
+    </div>
+
+    <div class="card">
+      <h3>Day 02</h3>
+      <p>I stopped caring who watches.</p>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  function toggleMode() {
+    document.body.classList.toggle("light-mode");
+  }
+
+  function toggleMusic() {
+  const music = document.getElementById("bg-music");
+
+  if (music.paused) {
+    music.play().catch(error => {
+      alert("Click the page once first, then try again.");
+    });
+  } else {
+    music.pause();
+  }
+}
+
+  const canvas = document.getElementById("rain");
+  const ctx = canvas.getContext("2d");
+
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  let rainDrops = [];
+
+  for (let i = 0; i < 300; i++) {
+    rainDrops.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      length: Math.random() * 20 + 10,
+      speed: Math.random() * 5 + 2
+    });
+  }
+
+  function drawRain() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.strokeStyle = "rgba(255,255,255,0.2)";
+    ctx.lineWidth = 1;
+
+    for (let drop of rainDrops) {
+      ctx.beginPath();
+      ctx.moveTo(drop.x, drop.y);
+      ctx.lineTo(drop.x, drop.y + drop.length);
+      ctx.stroke();
+
+      drop.y += drop.speed;
+
+      if (drop.y > canvas.height) {
+        drop.y = -20;
+        drop.x = Math.random() * canvas.width;
+      }
+    }
+
+    requestAnimationFrame(drawRain);
+  }
+
+  drawRain();
+</script>
+
+</body>
+</html>
