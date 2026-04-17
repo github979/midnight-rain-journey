@@ -1,6 +1,6 @@
 # 🌧️ Midnight Rain
 
-A cinematic, mood-driven web project inspired by the Eras aesthetic — built around motion, sound, and subtle interaction.
+A cinematic, mood-driven web project inspired by Taylor Swift’s *Midnight Rain* — built around motion, sound, and subtle interaction.
 
 ---
 
