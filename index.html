@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Midnight Rain — A personal journey through eras, growth, and becoming."/>
+  <title>Midnight Rain — A Journey</title>
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/style.css"/>
+
+  <!-- Favicon (inline SVG as data URI) -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>🌙</text></svg>"/>
+</head>
+<body>
+
+  <!-- Background audio (autoplay muted → unmuted via JS on first click) -->
+  <audio id="bg-audio" loop preload="auto">
+    <source src="assets/music.mp3" type="audio/mpeg"/>
+  </audio>
+
+  <!-- Rain canvas -->
+  <canvas id="rain-canvas" aria-hidden="true"></canvas>
+
+  <!-- Custom cursor -->
+  <div class="cursor"      id="cursor"      aria-hidden="true"></div>
+  <div class="cursor-ring" id="cursor-ring" aria-hidden="true"></div>
+
+  <!-- ==================
+       NAVIGATION
+       ================== -->
+  <nav aria-label="Site navigation">
+    <a href="#home" class="nav-logo">Midnight Rain</a>
+
+    <ul class="nav-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#eras">Eras</a></li>
+      <li><a href="#journal">Journal</a></li>
+      <li>
+        <button class="nav-music-btn" id="nav-music-btn" aria-label="Toggle music">
+          <span class="music-icon">♪</span>
+          <span>Music</span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- ==================
+       HERO
+       ================== -->
+  <section id="home" aria-label="Hero">
+
+    <!-- Eras Tour badge -->
+    <img
+      src="assets/eras-badge.svg"
+      alt="The Eras Journey badge"
+      class="eras-badge"
+      aria-hidden="true"
+    />
+
+    <p class="hero-eyebrow">A personal journey</p>
+
+    <h1 class="hero-title">
+      Midnight
+      <em>Rain</em>
+    </h1>
+
+    <p class="hero-subtitle">I was sunshine. I chose midnight rain.</p>
+
+    <div class="hero-stars" aria-hidden="true">
+      <span>✦</span><span>✦</span><span>✦</span><span>✦</span><span>✦</span>
+    </div>
+
+    <div class="hero-divider" aria-hidden="true"></div>
+  </section>
+
+
+  <!-- ==================
+       QUOTE BAND
+       ================== -->
+  <div class="quote-band" role="complementary" aria-label="Quote">
+    <blockquote>
+      "Some of us weren't meant to stay in the light forever.<br>
+      Some of us <strong>bloom in the dark.</strong>"
+    </blockquote>
+    <cite>— on becoming</cite>
+  </div>
+
+
+  <!-- ==================
+       ERAS
+       ================== -->
+  <hr class="section-divider" aria-hidden="true"/>
+
+  <section id="eras" aria-label="My Eras">
+    <div class="section-wrap">
+      <p class="section-label">The Journey</p>
+      <h2 class="section-heading">My <em>Eras</em></h2>
+
+      <div class="eras-grid">
+
+        <article class="era-card">
+          <p class="era-number">Era 01</p>
+          <h3 class="era-title">The <em>Silent</em> Era</h3>
+          <p class="era-desc">
+            When I disappeared to rebuild. The world didn't notice. I did.
+            Silence became the loudest thing I ever chose.
+          </p>
+          <span class="era-tag">2022 — 2023</span>
+          <span class="era-glyph" aria-hidden="true">🌑</span>
+        </article>
+
+        <article class="era-card">
+          <p class="era-number">Era 02</p>
+          <h3 class="era-title">The <em>Grind</em> Era</h3>
+          <p class="era-desc">
+            Discipline. JEE. No excuses. Every hour counted.
+            Every page mattered. I became someone I could be proud of.
+          </p>
+          <span class="era-tag">2023 — 2024</span>
+          <span class="era-glyph" aria-hidden="true">⚡</span>
+        </article>
+
+        <article class="era-card">
+          <p class="era-number">Era 03</p>
+          <h3 class="era-title">The <em>Becoming</em> Era</h3>
+          <p class="era-desc">
+            I stopped shrinking. I started choosing.
+            This is not an ending — it's an arrival. The story starts now.
+          </p>
+          <span class="era-tag">2024 — now</span>
+          <span class="era-glyph" aria-hidden="true">🌧️</span>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ==================
+       JOURNAL
+       ================== -->
+  <hr class="section-divider" aria-hidden="true"/>
+
+  <section id="journal" aria-label="Journal">
+    <div class="section-wrap">
+      <p class="section-label">Unfiltered</p>
+      <h2 class="section-heading">The <em>Journal</em></h2>
+
+      <div class="journal-entries">
+
+        <article class="journal-entry">
+          <div class="entry-date">
+            <span class="entry-day">01</span>
+            Day — 01
+          </div>
+          <div class="entry-body">
+            <h3>I started building instead of shrinking.</h3>
+            <p>
+              For the longest time I made myself small — smaller thoughts,
+              smaller dreams, smaller voice. Today I turned that off.
+              I opened a blank page and wrote something true.
+            </p>
+          </div>
+        </article>
+
+        <article class="journal-entry">
+          <div class="entry-date">
+            <span class="entry-day">02</span>
+            Day — 02
+          </div>
+          <div class="entry-body">
+            <h3>I stopped caring who watches.</h3>
+            <p>
+              The audience was always imaginary anyway.
+              I wrote for me tonight. No performance. Just presence.
+              That's enough.
+            </p>
+          </div>
+        </article>
+
+        <article class="journal-entry">
+          <div class="entry-date">
+            <span class="entry-day">03</span>
+            Day — 03
+          </div>
+          <div class="entry-body">
+            <h3>The rain doesn't apologize.</h3>
+            <p>
+              It just falls. It doesn't ask if it's too much, too loud, too cold.
+              I want to be more like that — showing up fully, without asking
+              permission first.
+            </p>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ==================
+       FOOTER
+       ================== -->
+  <footer>
+    <img
+      src="assets/eras-badge.svg"
+      alt=""
+      class="footer-badge"
+      aria-hidden="true"
+    />
+    <p>
+      Built in the dark &nbsp;·&nbsp; Midnight Rain Journey &nbsp;·&nbsp; Every era counts
+    </p>
+    <p style="margin-top:0.5rem;">
+      Inspired by the Eras Tour &nbsp;✦&nbsp; Made with 🌧️ and discipline
+    </p>
+  </footer>
+
+
+  <!-- ==================
+       FLOATING MUSIC PLAYER
+       ================== -->
+  <div class="music-player" id="music-player" role="region" aria-label="Music player">
+    <div class="player-vinyl" aria-hidden="true"></div>
+
+    <div class="player-info">
+      <p class="player-track">Now Playing</p>
+      <p class="player-artist">Midnight Rain</p>
+    </div>
+
+    <div class="player-wave" aria-hidden="true">
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+
+    <div class="player-controls">
+      <button class="player-btn" id="play-btn" aria-label="Play / Pause">▶</button>
+      <input
+        type="range"
+        class="player-volume"
+        id="vol-slider"
+        min="0" max="1" step="0.05"
+        value="0.5"
+        aria-label="Volume"
+      />
+    </div>
+  </div>
+
+
+  <!-- JavaScript -->
+  <script src="js/main.js"></script>
+
+</body>
+</html>
