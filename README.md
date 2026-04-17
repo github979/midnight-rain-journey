@@ -5,7 +5,7 @@ A cinematic, mood-driven web project inspired by Taylor Swift’s *Midnight Rain
 ---
 
 ## 🌐 Live
-[(Add your deployed link here)](https://github979.github.io/midnight-rain-journey/)
+[(Midnight rain)](https://github979.github.io/midnight-rain-journey/)
 
 ---
 
